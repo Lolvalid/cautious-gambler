@@ -3,16 +3,17 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class cardInteractions {
+	static int[][] deckHit;
+	public static int handSizeDealer=0;
+	public static int handSizePlayer=0;
 
 	public static void main(String[] args) {
-
-		resetTheDeck();
 	}
 
-	public static int[][] resetTheDeck() {
+	public static int[][] buildTheDeck() {
 		//Initializing deck, 14 Ace - 1-13 numbers + 3 faces. Size 15 to account for 0 being a used card.
 		int s = 0;
-		int suiteSize = 4;
+		int suiteSize = 5;
 		int amountOfCards = 15;
 		int[][] theDeck = new int[suiteSize][amountOfCards];
 		boolean isSuiteFull = false;
@@ -40,19 +41,26 @@ public class cardInteractions {
 
 	}
 
-	public static int[] hitTheDeck(int[][] theDeck) {
+	public static int[] hitTheDeck(int[][] theDeck, char whosCard) {
 		Random drawCard = new Random();
-
-		int amountOfCards = 14;
-		int suiteSize = 3;
-		int[][] deckHit = theDeck;
+		char player = 'P';
+		char dealer = 'D';
+		int amountOfCards = 15;
+		int suiteSize = 5;
+		deckHit = theDeck;
 		int suiteChosen = drawCard.nextInt(suiteSize);
 		int cardChosen = drawCard.nextInt(amountOfCards);
 		String suiteName = "";
 		String cardName = "";
 
 		//redrawing card if value = 0 as has been used or is on table.
-		if (cardChosen == 0){
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();}
+
+
+		while (cardChosen == 0 || suiteChosen == 0){
 			cardChosen = drawCard.nextInt(amountOfCards);
 			suiteChosen = drawCard.nextInt(suiteSize);
 		}
@@ -60,7 +68,7 @@ public class cardInteractions {
 		//Removing card from the deck
 		deckHit[suiteChosen][cardChosen] = 0;
 
-		if (0 == cardChosen || cardChosen > 10) {
+		if (cardChosen > 10) {
 			switch (cardChosen) {
 				case 11:
 					cardName = "Jack";
@@ -79,16 +87,16 @@ public class cardInteractions {
 			cardName = String.valueOf(cardChosen);}
 
 		switch (suiteChosen) {
-			case 0:
+			case 1:
 				suiteName = "Diamonds.";
 				break;
-			case 1:
+			case 2:
 				suiteName = "Clubs.";
 				break;
-			case 2:
+			case 3:
 				suiteName = "Spades.";
 				break;
-			case 3:
+			case 4:
 				suiteName = "Hearts.";
 				break;
 
@@ -98,13 +106,28 @@ public class cardInteractions {
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();
 		}
-		System.out.println("You drew a " + cardName + " of " + suiteName);
+		if (whosCard == player) {
+			System.out.println("You drew a " + cardName + " of " + suiteName);
+			handSizePlayer++;
+			playerChoices.playerHand(cardName, handSizePlayer);
+		}
+		if (whosCard == dealer) {
+			System.out.println("The dealer drew a " + cardName + " of " + suiteName);
+			handSizeDealer++;
+			playerChoices.dealerHand(cardName,handSizeDealer);
+		}
+
+
+		if (handSizePlayer > 1 && whosCard == player) {
+			playerChoices.showHand(player);
+		} else if(handSizeDealer > 1 && whosCard == dealer) {
+			playerChoices.showHand(dealer);
+		}
 
 		//giving values to face cards, informing main there was an ace in case of bust.
 
 		int cardValue = cardChosen;
 		int wasAnAce = 0;
-
 		if (cardChosen == 14){
 			cardValue = 11;
 			wasAnAce = 1;
@@ -115,6 +138,12 @@ public class cardInteractions {
 		int[] aceAndValue = {cardValue,wasAnAce};
 
 		return aceAndValue;
+
+	}
+	//Setting cards 1-10 as string values.
+	public String convertCardNumberToString(int cardDrawn){
+		String convertedNumber = Integer.toString(cardDrawn);
+		return convertedNumber;
 	}
 }
 
