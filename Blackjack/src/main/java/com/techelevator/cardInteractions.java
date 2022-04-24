@@ -18,6 +18,7 @@ public class cardInteractions {
 		int[][] theDeck = new int[suiteSize][amountOfCards];
 		boolean isSuiteFull = false;
 		boolean hasSuiteLooped = false;
+
 		//additional 2 loops to account for increase in suite, and reset card placement.
 		for (int i = 0; i <= amountOfCards + 2; i++) {
 			//Checking to see if we have filled all 4 suites.
@@ -43,6 +44,7 @@ public class cardInteractions {
 
 	public static int[] hitTheDeck(int[][] theDeck, char whosCard) {
 		Random drawCard = new Random();
+		int spentCardOrSuite = 0;
 		char player = 'P';
 		char dealer = 'D';
 		int amountOfCards = 15;
@@ -52,6 +54,7 @@ public class cardInteractions {
 		int cardChosen = drawCard.nextInt(amountOfCards);
 		String suiteName = "";
 		String cardName = "";
+		int minHandSizeToPrint = 1;
 
 		//redrawing card if value = 0 as has been used or is on table.
 		try {
@@ -60,13 +63,13 @@ public class cardInteractions {
 			ex.printStackTrace();}
 
 
-		while (cardChosen == 0 || suiteChosen == 0){
+		while (cardChosen == spentCardOrSuite || suiteChosen == spentCardOrSuite){
 			cardChosen = drawCard.nextInt(amountOfCards);
 			suiteChosen = drawCard.nextInt(suiteSize);
 		}
 
 		//Removing card from the deck
-		deckHit[suiteChosen][cardChosen] = 0;
+		deckHit[suiteChosen][cardChosen] =spentCardOrSuite;
 
 		if (cardChosen > 10) {
 			switch (cardChosen) {
@@ -101,6 +104,7 @@ public class cardInteractions {
 				break;
 
 		}
+		//giving delaying hit a moment for suspense.
 		try{
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException ex) {
@@ -118,20 +122,23 @@ public class cardInteractions {
 		}
 
 
-		if (handSizePlayer > 1 && whosCard == player) {
+		if (handSizePlayer > minHandSizeToPrint && whosCard == player) {
 			playerChoices.showHand(player);
-		} else if(handSizeDealer > 1 && whosCard == dealer) {
+		} else if(handSizeDealer > minHandSizeToPrint && whosCard == dealer) {
 			playerChoices.showHand(dealer);
 		}
 
 		//giving values to face cards, informing main there was an ace in case of bust.
 
 		int cardValue = cardChosen;
+		int minFaceCardValue = 10;
 		int wasAnAce = 0;
-		if (cardChosen == 14){
+		int valueForAceDrawn = 14;
+
+		if (cardChosen == valueForAceDrawn){
 			cardValue = 11;
 			wasAnAce = 1;
-		} else if (cardChosen > 10){
+		} else if (cardChosen > minFaceCardValue){
 			cardValue = 10;
 		 }
 		//defining array to store and return values

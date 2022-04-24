@@ -16,7 +16,7 @@ public class playerChoices {
 
 		String playerChoice = "";
 		int[] playerHitAndValue = new int[2];
-		int playerStays = 8;
+		int playerStays = 8; // random number that would be out of bounds for suite to designate to main that the player has stayed.
 		boolean validChoice = false;
 		//asking player to choose hit or stay, if hit draws card, else stays and returns to main
 		try {
@@ -126,9 +126,11 @@ public class playerChoices {
 	}
 
 	public static void showHand(char whosCards){
+		char playersCard = 'P';
+
 		String playersHand = String.join(", ",cardsOnTablePlayer);
 		String dealersHand = String.join(", ",cardsOnTableDealer);
-		if (whosCards == 'P') {
+		if (whosCards == playersCard) {
 			System.out.println("************************");
 			System.out.println("You have the following cards: " + playersHand);
 		} else {
@@ -138,14 +140,26 @@ public class playerChoices {
 	}
 
 	public static boolean isAQuiter(){
+		String[] resetCardsInHand = new String[]{null,null};
 		int playLimit = 5;
+		int defaultHandSize = 0;
 		try {
 			String playerAnswer = choice.next();
 			 if (playerAnswer.equalsIgnoreCase("Y") || playerAnswer.equalsIgnoreCase("Yes")){
 				 gamesPlayed++;
 				 if (gamesPlayed > playLimit){
 					 cardInteractions.buildTheDeck();
+					 System.out.println("The deck is getting low, shuffling the deck.");
+					 cardInteractions.handSizeDealer =defaultHandSize;
+					 cardInteractions.handSizePlayer =defaultHandSize;
+					 cardsOnTablePlayer = resetCardsInHand;
+					 cardsOnTableDealer = resetCardsInHand;
+					 Blackjack.main(null);
 				 }else {
+					 cardInteractions.handSizeDealer =defaultHandSize;
+					 cardInteractions.handSizePlayer =defaultHandSize;
+					 cardsOnTablePlayer = resetCardsInHand;
+					 cardsOnTableDealer = resetCardsInHand;
 					 Blackjack.main(null);
 				 }
 			 } else if ( playerAnswer.equalsIgnoreCase("N") || playerAnswer.equalsIgnoreCase("No")){
