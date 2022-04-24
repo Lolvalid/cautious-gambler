@@ -122,7 +122,7 @@ public class Blackjack {
 	}
 
 	public static void printResults(int playerTotal, int dealerTotal) {
-		//resolving game based on totals
+		//resolving game based on totals -gitlab is annoying
 		if(dealerTotal>BLACKJACK_BABY){
 			System.out.println("The dealer has busted, you win!");
 		}else if (dealerTotal == playerTotal) {
