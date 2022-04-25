@@ -147,6 +147,10 @@ public class playerChoices {
 			String playerAnswer = choice.next();
 			 if (playerAnswer.equalsIgnoreCase("Y") || playerAnswer.equalsIgnoreCase("Yes")){
 				 gamesPlayed++;
+
+				 Blackjack.dealerHadAce =false;
+				 Blackjack.playerHadAce=false;
+
 				 if (gamesPlayed > playLimit){
 					 cardInteractions.buildTheDeck();
 					 System.out.println("The deck is getting low, shuffling the deck.");

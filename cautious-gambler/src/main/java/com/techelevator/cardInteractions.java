@@ -45,6 +45,7 @@ public class cardInteractions {
 	public static int[] hitTheDeck(int[][] theDeck, char whosCard) {
 		Random drawCard = new Random();
 		int spentCardOrSuite = 0;
+		int additionalSpentCard = 1;
 		char player = 'P';
 		char dealer = 'D';
 		int amountOfCards = 15;
@@ -63,7 +64,7 @@ public class cardInteractions {
 			ex.printStackTrace();}
 
 
-		while (cardChosen == spentCardOrSuite || suiteChosen == spentCardOrSuite){
+		while (cardChosen == (spentCardOrSuite) || suiteChosen == spentCardOrSuite || cardChosen == additionalSpentCard){
 			cardChosen = drawCard.nextInt(amountOfCards);
 			suiteChosen = drawCard.nextInt(suiteSize);
 		}
