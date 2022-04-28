@@ -29,7 +29,7 @@ public class dealerLogic {
 
         do {
             dealerTotal = dealerHit(dealerTotal);
-
+            System.out.println("The Dealers total is: " + dealerTotal);
             if (dealerTotal > BLACKJACK_BABY && dealerAce) {
                     dealerTotal -= softAce;
             } else if (dealerTotal > BLACKJACK_BABY){

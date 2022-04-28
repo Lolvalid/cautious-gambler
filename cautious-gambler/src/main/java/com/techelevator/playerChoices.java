@@ -76,7 +76,8 @@ public class playerChoices {
 		for (int i = 0; i <= arraySize - 1; i++) {
 			if (isFirstCard && (i ==0 )) {
 				toStoreNewCards[i] = newCard;
-				break; //breaking otherwise would loop on hand size 1 and not loop on others;
+				break;
+				//breaking otherwise would loop on hand size 1 and not loop on others;
 				//places array into new array that is 1 bigger than previous array.
 			}else if ( i < arraySize - 1){
 				toStoreNewCards[i] = cardsOnTablePlayer[i];
